@@ -70,7 +70,28 @@ public class GestionnaireCompte {
 
         CompteBancaire compteSource = this.find(idSource);
         CompteBancaire compteDestinataire = this.find(idDestinataire);
-
+        FacesMessage message = new FacesMessage();
+        
+        if(idSource == null) {
+            message.setDetail("Id source invalide!");
+            message.setSeverity(FacesMessage.SEVERITY_FATAL);
+            throw new ValidatorException(message);
+        }
+        if(idDestinataire == null) {
+            message.setDetail("Id destinataire invalide!");
+            message.setSeverity(FacesMessage.SEVERITY_FATAL);
+            throw new ValidatorException(message);
+        }
+        if(compteSource == null) {
+            message.setDetail("Aucun compte source aved cet id!");
+            message.setSeverity(FacesMessage.SEVERITY_FATAL);
+            throw new ValidatorException(message);
+        }
+        if(compteDestinataire == null) {
+            message.setDetail("Aucun compte destinataire aved cet id!");
+            message.setSeverity(FacesMessage.SEVERITY_FATAL);
+            throw new ValidatorException(message);
+        }
         this.transferer(compteSource, compteDestinataire, soldeATransferer);
         
     }

@@ -13,28 +13,28 @@
             </ui:define>
 
             <ui:define name="content">
-                <h:form>
-                    <div>
-                        <h:outputLabel value="Compte bancaire source" for="idSource"/>
-                        <h:inputText id="idSource" value="#{transfertArgent.idSource}"/>
-
-                    </div>
-                    <div>
-                        <h:outputLabel value="Compte bancaire destinataire" for="idDestinataire"/>
-                        <h:inputText id="idDestinataire" value="#{transfertArgent.idDestinataire}"/>
-
-                    </div>
-                    <div>
-                        <h:outputLabel value="Solde" for="solde"/>
-                        <h:inputText id="solde" value="#{transfertArgent.solde}"/>
-
-                    </div>
+                <h:form id="form">
+                    <h:panelGrid columns="3">
+                        Id compte source : 
+                        <h:inputText id="source" size="3" value="#{transfertArgent.idSource}"
+                                     required="true"
+                                     converterMessage="L'id est un nombre entier"/>
+                        <h:message for="source"/>
+                        Id compte déstinataire : 
+                        <h:inputText id="destinataire" size="3" value="#{transfertArgent.idDestinataire}"
+                                     required="true"
+                                     converterMessage="L'id est un nombre entier"/>
+                        <h:message for="destinataire"/>
+                        Montant à transferer : 
+                        <h:inputText id="solde" size="3" value="#{transfertArgent.solde}"
+                                     required="true"
+                                     converterMessage="Le montant est un nombre entier"/>
+                        <h:message for="solde"/>
+                    </h:panelGrid>
                     <h:commandButton value="Valider" action="#{transfertArgent.effectuerTransfert()}"/>
-                    <br/>
-                    <h:message for="idSource" style = "color:red"/>
-                    <h:message for="idDestinataire" style = "color:red"/>
-                    <h:message for="solde" style = "color:red"/>
                 </h:form>
+                <h:messages/>
+
             </ui:define>
 
         </ui:composition>
