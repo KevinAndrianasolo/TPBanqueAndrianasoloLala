@@ -19,7 +19,8 @@ import java.io.Serializable;
 @Entity
 @NamedQueries(
         {
-            @NamedQuery(name="CompteBancaire.findAll", query="select c from CompteBancaire c")
+            @NamedQuery(name="CompteBancaire.findAll", query="select c from CompteBancaire c"),
+            @NamedQuery(name="CompteBancaire.deleteAll", query="delete from CompteBancaire")
         }
 )
 public class CompteBancaire implements Serializable {
