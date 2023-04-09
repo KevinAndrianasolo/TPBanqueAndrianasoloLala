@@ -7,13 +7,14 @@ package mg.itu.tpbanqueandrianasololala.ejb;
 import jakarta.annotation.sql.DataSourceDefinition;
 import jakarta.ejb.Stateless;
 import jakarta.faces.application.FacesMessage;
-import jakarta.faces.validator.ValidatorException;
+import jakarta.faces.context.FacesContext;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
 import mg.itu.tpbanqueandrianasololala.entities.CompteBancaire;
+import mg.itu.tpbanqueandrianasololala.jsf.Util;
 
 /**
  *
@@ -66,42 +67,22 @@ public class GestionnaireCompte {
         return compte;
     }
 
-    public void transferer(Long idSource, Long idDestinataire, int soldeATransferer) {
-
-        CompteBancaire compteSource = this.find(idSource);
-        CompteBancaire compteDestinataire = this.find(idDestinataire);
-        FacesMessage message = new FacesMessage();
-        
-        if(idSource == null) {
-            message.setDetail("Id source invalide!");
-            message.setSeverity(FacesMessage.SEVERITY_FATAL);
+    /*public void validateId(FacesContext context, UIComponent composant, Object id) {
+        CompteBancaire compte = this.find((Long) id);
+        if (compte == null) {
+            FacesMessage message
+                    = new FacesMessage("Pas de compte avec id " + id);
             throw new ValidatorException(message);
         }
-        if(idDestinataire == null) {
-            message.setDetail("Id destinataire invalide!");
-            message.setSeverity(FacesMessage.SEVERITY_FATAL);
-            throw new ValidatorException(message);
-        }
-        if(compteSource == null) {
-            message.setDetail("Aucun compte source aved cet id!");
-            message.setSeverity(FacesMessage.SEVERITY_FATAL);
-            throw new ValidatorException(message);
-        }
-        if(compteDestinataire == null) {
-            message.setDetail("Aucun compte destinataire aved cet id!");
-            message.setSeverity(FacesMessage.SEVERITY_FATAL);
-            throw new ValidatorException(message);
-        }
-        this.transferer(compteSource, compteDestinataire, soldeATransferer);
-        
-    }
-
-    public void transferer(CompteBancaire source, CompteBancaire destination,
+    }*/
+    
+    public boolean transferer(CompteBancaire source, CompteBancaire destination,
             int montant) {
         source.retirer(montant);
         destination.deposer(montant);
         update(source);
         update(destination);
+        return true;
     }
 
     public CompteBancaire update(CompteBancaire compteBancaire) {

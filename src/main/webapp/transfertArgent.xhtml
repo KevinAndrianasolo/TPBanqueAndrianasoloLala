@@ -18,18 +18,23 @@
                         Id compte source : 
                         <h:inputText id="source" size="3" value="#{transfertArgent.idSource}"
                                      required="true"
+                                     requiredMessage="Source requis"
+                                     validator="compteBancaireValidator"
                                      converterMessage="L'id est un nombre entier"/>
                         <h:message for="source"/>
                         Id compte déstinataire : 
                         <h:inputText id="destinataire" size="3" value="#{transfertArgent.idDestinataire}"
                                      required="true"
+                                     requiredMessage="Destinataire requis"
+                                     validator="compteBancaireValidator"
                                      converterMessage="L'id est un nombre entier"/>
                         <h:message for="destinataire"/>
                         Montant à transferer : 
-                        <h:inputText id="solde" size="3" value="#{transfertArgent.solde}"
+                        <h:inputText id="montant" size="3" value="#{transfertArgent.montant}"
                                      required="true"
+                                     requiredMessage="Montant requis"
                                      converterMessage="Le montant est un nombre entier"/>
-                        <h:message for="solde"/>
+                        <h:message for="montant"/>
                     </h:panelGrid>
                     <h:commandButton value="Valider" action="#{transfertArgent.effectuerTransfert()}"/>
                 </h:form>
