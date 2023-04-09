@@ -25,7 +25,7 @@
                                      rowsPerPageTemplate="2,4,8,10"
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      >
-                            <p:column>
+                            <p:column sortBy="#{item.id}" filterBy="#{item.id}">
                                 <f:facet name="header">
                                     <h:outputText value="CompteId"/>
                                 </f:facet>
