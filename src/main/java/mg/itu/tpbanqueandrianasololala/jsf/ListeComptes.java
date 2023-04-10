@@ -43,8 +43,5 @@ public class ListeComptes implements Serializable {
         return "listeComptes?faces-redirect=true";
     }
     
-    public void modifierNom(CompteBancaire compte){
-        
-    }
 
 }
