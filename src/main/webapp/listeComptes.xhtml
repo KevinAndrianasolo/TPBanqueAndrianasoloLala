@@ -44,6 +44,13 @@
                                 </f:facet>
                                 <h:outputText value="#{item.solde}"/>
                             </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Modification"/>
+                                </f:facet>
+                                <h:link outcome="modificationNom?idCompte=#{item.id}" 
+                                        value="Modifier le nom"/>
+                            </p:column>
                             <p:column width="10">
                                 <f:facet name="header">
                                     <h:outputText value="Opérations"/>
