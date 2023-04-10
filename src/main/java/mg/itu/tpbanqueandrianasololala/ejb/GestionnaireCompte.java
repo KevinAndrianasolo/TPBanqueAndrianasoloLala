@@ -75,7 +75,6 @@ public class GestionnaireCompte {
             throw new ValidatorException(message);
         }
     }*/
-    
     public boolean transferer(CompteBancaire source, CompteBancaire destination,
             int montant) {
         source.retirer(montant);
@@ -87,5 +86,9 @@ public class GestionnaireCompte {
 
     public CompteBancaire update(CompteBancaire compteBancaire) {
         return em.merge(compteBancaire);
+    }
+
+    public void supprimerCompte(CompteBancaire compte) {
+        em.remove(em.merge(compte));
     }
 }

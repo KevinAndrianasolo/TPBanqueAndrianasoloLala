@@ -19,20 +19,28 @@ import mg.itu.tpbanqueandrianasololala.entities.CompteBancaire;
 @Named(value = "listeComptes")
 @ViewScoped
 public class ListeComptes implements Serializable {
-    
+
     List<CompteBancaire> allComptes;
     /**
      * Creates a new instance of ListeComptes
      */
     @EJB
     private GestionnaireCompte gc;
-    
+
     public ListeComptes() {
     }
-    
-    public List<CompteBancaire> getAllComptes(){
-        if(this.allComptes == null ) this.allComptes = this.gc.getAllComptes();
+
+    public List<CompteBancaire> getAllComptes() {
+        if (this.allComptes == null) {
+            this.allComptes = this.gc.getAllComptes();
+        }
         return this.allComptes;
     }
-    
+
+    public String supprimerCompte(CompteBancaire compteBancaire) {
+        this.gc.supprimerCompte(compteBancaire);
+        Util.addFlashInfoMessage("Compte de " + compteBancaire.getNom() + " supprimé");
+        return "listeComptes?faces-redirect=true";
+    }
+
 }
