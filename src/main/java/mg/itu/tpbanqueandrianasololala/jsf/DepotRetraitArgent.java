@@ -5,8 +5,10 @@
 package mg.itu.tpbanqueandrianasololala.jsf;
 
 import jakarta.ejb.EJB;
+import jakarta.ejb.EJBException;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
+import jakarta.persistence.OptimisticLockException;
 import java.io.Serializable;
 import mg.itu.tpbanqueandrianasololala.ejb.GestionnaireCompte;
 import mg.itu.tpbanqueandrianasololala.entities.CompteBancaire;
@@ -17,7 +19,7 @@ import mg.itu.tpbanqueandrianasololala.entities.CompteBancaire;
  */
 @Named(value = "depotRetraitArgent")
 @ViewScoped
-public class DepotRetraitArgent implements Serializable{
+public class DepotRetraitArgent implements Serializable {
 
     @EJB
     private GestionnaireCompte gc;
@@ -57,21 +59,36 @@ public class DepotRetraitArgent implements Serializable{
     }
 
     public String update() {
-        CompteBancaire compte = this.getCompte();
-        boolean erreur = false;
-        if (this.getMontant() < 0) {
-            compte.retirer(this.getMontant() * -1);
-        } else {
-            compte.deposer(this.getMontant());
+        try {
+            CompteBancaire compte = this.getCompte();
+            boolean erreur = false;
+            if (this.getMontant() < 0) {
+                compte.retirer(this.getMontant() * -1);
+            } else {
+                compte.deposer(this.getMontant());
+            }
+
+            compte = this.gc.update(compte);
+            if (erreur) { // en cas d'erreur, rester sur la même page
+                return null;
+            }
+            Util.addFlashInfoMessage("Dépot/Retrait effectué");
+
+            return "listeComptes?faces-redirect=true";
+        } catch (EJBException ex) {
+            Throwable cause = ex.getCause();
+            if (cause != null) {
+                if (cause instanceof OptimisticLockException) {
+                    Util.messageErreur("Le compte de " + compte.getNom()
+                            + " a été modifié ou supprimé par un autre utilisateur !");
+                } else { // Afficher le message de ex si la cause n'est pas une OptimisticLockException
+                    Util.messageErreur(cause.getMessage());
+                }
+            } else { // Pas de cause attachée à l'EJBException
+                Util.messageErreur(ex.getMessage());
+            }
+            return null; // pour rester sur la page s'il y a une exception
         }
-        
-        compte = this.gc.update(compte);
-        if (erreur) { // en cas d'erreur, rester sur la même page
-            return null;
-        }
-        Util.addFlashInfoMessage("Dépot/Retrait effectué");
-        
-        return "listeComptes?faces-redirect=true";
     }
 
 }
